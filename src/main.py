@@ -38,6 +38,7 @@ def main():
     )
     args = parser.parse_args()
 
+    # CUDAが使える場合はGPU、ない場合はCPUで動作する
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"起動環境: {device}")
     print("モデル読み込み中 (turbo)...")
@@ -53,6 +54,7 @@ def main():
 
     if args.clean:
         print("フィラー除去を実行中...")
+        # result["segments"]はWhisperが返す時間ごとの文章リスト
         for segment in result["segments"]:
             segment["text"] = clean_text(segment["text"])
         result["text"] = clean_text(result["text"])
